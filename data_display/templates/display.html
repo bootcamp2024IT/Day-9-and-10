@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NAME AND BIRTHDATE DISPLAY</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            background-color: #f0f0f0; /* Light gray background */
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20230612/pngtree-hacked-computer-screen-of-a-hooded-hacker-sitting-at-his-computer-image_2914447.jpg'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        #ageForm {
+            background-color: #008000; /* hacker background */
+            padding: 20px;
+            border: 1px solid #008000; /* green border */
+            border-radius: 5px; /* Rounded corners */
+            width: 300px; /* Adjust width as needed */
+            margin: 0 auto; /* Center align the form */
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #008000; /* Lighter salmon background for result */
+            border: 1px solid #008000; /* Light salmon border */
+            border-radius: 5px; /* Rounded corners */
+            text-align: center; /* Center align text */
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#ageForm').on('submit', function(event){
+                event.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '/calculate_age',
+                    data: $(this).serialize(),
+                    success: function(response){
+                        $('#result').text(response.name + ' is ' + response.age + ' years old.');
+                    },
+                    error: function(error){
+                        console.log(error);
+                        $('#result').text('Error: ' + error.responseJSON.error);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2 style="text-align: center;">NAME AND BIRTHDATE DISPLAY</h2>
+    <form id="ageForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="birthdate">Birthdate:</label>
+        <input type="date" id="birthdate" name="birthdate" required><br><br>
+
+        <button type="submit" style="width: 100%; padding: 10px;">Display Age</button>
+    </form>
+
+    <div id="result"></div>
+</body>
+</html>
